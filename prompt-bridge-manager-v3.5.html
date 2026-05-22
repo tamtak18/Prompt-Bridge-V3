@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Prompt Bridge V3.1 Builder (Win) - takasoft</title>
+    <style>
+        :root { --main-color: #ff8c00; --bg-color: #0d0d0d; --panel-bg: #1a1a1a; --text-color: #ff8c00; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', Consolas, monospace; margin: 0; padding: 20px; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; border: 2px solid var(--main-color); padding: 30px; box-shadow: 0 0 25px rgba(255, 140, 0, 0.4); border-radius: 8px; }
+        h1 { text-align: center; font-size: 2.2em; letter-spacing: 4px; border-bottom: 2px solid var(--main-color); margin-bottom: 20px; padding-bottom: 10px; }
+        .path-config { background: #222; padding: 15px; border-radius: 5px; margin-bottom: 25px; border-left: 5px solid var(--main-color); }
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .card { background: var(--panel-bg); border: 1px solid #333; padding: 15px; border-radius: 5px; }
+        .card:hover { border-color: var(--main-color); background: #222; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; color: #aaa; }
+        input, textarea { width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 10px; border-radius: 4px; box-sizing: border-box; }
+        input:focus, textarea:focus { border-color: var(--main-color); outline: none; box-shadow: 0 0 5px var(--main-color); }
+        textarea { height: 400px; color: #0f0; font-family: 'Consolas', monospace; font-size: 0.95em; }
+        .btn-build { background: var(--main-color); color: #000; border: none; padding: 18px; cursor: pointer; font-weight: bold; font-size: 1.2em; width: 100%; margin-top: 25px; border-radius: 4px; text-transform: uppercase; }
+        .btn-build:hover { background: #ffa500; filter: brightness(1.2); }
+        .output-area { margin-top: 30px; display: none; background: #000; padding: 20px; border: 2px solid #0f0; border-radius: 5px; }
+        .cmd-box { position: relative; background: #050505; padding: 15px; margin-top: 10px; border-radius: 4px; }
+        code { color: #0f0; word-break: break-all; white-space: pre-wrap; font-family: 'Consolas', monospace; font-size: 0.85em; }
+        .copy-btn { position: absolute; top: 10px; right: 10px; background: #333; color: #fff; border: 1px solid #555; padding: 5px 15px; cursor: pointer; border-radius: 3px; font-size: 0.8em; }
+        .copy-btn:hover { background: var(--main-color); color: #000; }
+        .copy-btn.success { background: #0f0; color: #000; border-color: #0f0; }
+        .win-hint { color: #fff; font-size: 0.85em; margin-top: 10px; border: 1px solid #555; padding: 10px; background: #222; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PROMPT BRIDGE V3.1 BUILDER (WINDOWS)</h1>
+
+        <div class="path-config">
+            <label>📁 プロジェクトフォルダのパス (Windows形式):</label>
+            <input type="text" id="workDir" value="C:\dev\prompt-bridge-v3" placeholder="C:\Users\YourName\Documents\prompt-bridge-v3">
+            <p style="font-size: 0.8em; color: #888; margin: 5px 0 0;">※ PowerShellで直接実行可能なパスを指定してください．</p>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <label>PB1: メニュー見出し</label>
+                <input type="text" id="label1" value="PB1: コード解説">
+                <label>PB1: プロンプト</label>
+                <textarea id="p1"># 役割
+シニアエンジニアとして、ジュニア向けに以下のコードを解説してください。
+
+# 項目
+1. **概要**: 何をするコードか（1行）
+2. **仕組み**: 処理の流れを箇条書きで（簡潔に）
+3. **重要語句**: 覚えるべきキーワード3選（一言解説）
+4. **改善点**:
+   - 可読性、保守性、セキュリティの観点から1〜2点
+   - 実務で注意すべき「落とし穴」
+
+---
+## 解説対象のソースコード：</textarea>
+            </div>
+            <div class="card">
+                <label>PB2: メニュー見出し</label>
+                <input type="text" id="label2" value="PB2: テスト観点">
+                <label>PB2: プロンプト</label>
+                <textarea id="p2"># 役割
+シニアQAエンジニアとして、以下のコードに対するテスト観点を網羅的に作成してください。
+
+# 項目
+1. **正常系**: 期待通りの動作を確認するためのケース
+2. **異常系・準正常系**: エラーハンドリングや不正な入力に対するケース
+3. **境界値・特殊値**: バグが発生しやすい値（0, 空, 最大値, 型違い等）のケース
+4. **実務上の懸念点**: 外部接続（API/DB）やパフォーマンスに関する注意点
+
+# 出力形式
+ジュニアがそのままテスト仕様書に反映できるよう、箇条書きで簡潔に出力してください。
+
+---
+## 対象ソースコード：</textarea>
+            </div>
+            <div class="card">
+                <label>PB3: メニュー見出し</label>
+                <input type="text" id="label3" value="PB3: CDIレビュー">
+                <label>PB3: プロンプト</label>
+                <textarea id="p3">以下のコードをCDI（信頼性・保守性・効率性）の観点からレビューし，修正案を提示してください：</textarea>
+            </div>
+        </div>
+
+        <button class="btn-build" onclick="build()">Windows用ビルドコマンド生成</button>
+
+        <div id="output" class="output-area">
+            <label style="color: #0f0;">🚀 生成された PowerShell ワンライナー:</label>
+            <div class="cmd-box">
+                <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">COPY</button>
+                <code id="fullCommand"></code>
+            </div>
+            <div class="win-hint">
+                <strong>【Windowsでの実行方法】</strong><br>
+                1. 上記をコピーします．<br>
+                2. <strong>PowerShell</strong> を起動します．<br>
+                3. 貼り付けてエンターを押すと，指定フォルダに VSIX が作成されます．
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function build() {
+            const workDir = document.getElementById('workDir').value.replace(/\\$/, "");
+            const vals = {
+                l1: document.getElementById('label1').value,
+                p1: document.getElementById('p1').value,
+                l2: document.getElementById('label2').value,
+                p2: document.getElementById('p2').value,
+                l3: document.getElementById('label3').value,
+                p3: document.getElementById('p3').value
+            };
+
+            // package.json - 設定キー名をメニュー見出しから生成
+            const packageJson = {
+                "name": "prompt-bridge-v3",
+                "displayName": "Prompt Bridge V3.1",
+                "version": "3.1.0",
+                "publisher": "takasoft",
+                "engines": { "vscode": "^1.74.0" },
+                "activationEvents": [],
+                "main": "./extension.js",
+                "contributes": {
+                    "commands": [
+                        { "command": "prompt-bridge-v3.sendToRoo1", "title": vals.l1 },
+                        { "command": "prompt-bridge-v3.sendToRoo2", "title": vals.l2 },
+                        { "command": "prompt-bridge-v3.sendToRoo3", "title": vals.l3 }
+                    ],
+                    "submenus": [{ "id": "prompt-bridge-v3.submenu", "label": "Prompt Bridge" }],
+                    "menus": {
+                        "editor/context": [{ "submenu": "prompt-bridge-v3.submenu", "when": "editorHasSelection", "group": "navigation" }],
+                        "prompt-bridge-v3.submenu": [
+                            { "command": "prompt-bridge-v3.sendToRoo1", "group": "1_main@1" },
+                            { "command": "prompt-bridge-v3.sendToRoo2", "group": "1_main@2" },
+                            { "command": "prompt-bridge-v3.sendToRoo3", "group": "1_main@3" }
+                        ]
+                    },
+                    "configuration": {
+                        "title": "Prompt Bridge V3",
+                        "properties": {
+                            [`promptBridgeV3.${vals.l1}`]: { "type": "string", "default": vals.p1, "description": `${vals.l1}で使用するプロンプト` },
+                            [`promptBridgeV3.${vals.l2}`]: { "type": "string", "default": vals.p2, "description": `${vals.l2}で使用するプロンプト` },
+                            [`promptBridgeV3.${vals.l3}`]: { "type": "string", "default": vals.p3, "description": `${vals.l3}で使用するプロンプト` }
+                        }
+                    }
+                }
+            };
+
+            // extension.js - 設定キーを動的に検索
+            const extensionJs = `const vscode = require('vscode');
+const ROO_EXTENSION_ID = 'RooVeterinaryInc.roo-cline';
+
+async function sendToRoo(promptIndex) {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) return;
+    const selection = editor.selection;
+    const text = editor.document.getText(selection);
+    if (!text || text.trim().length === 0) {
+        vscode.window.showWarningMessage('テキストを選択してから実行してください．');
+        return;
+    }
+    
+    const config = vscode.workspace.getConfiguration('promptBridgeV3');
+    const allKeys = Object.keys(config).filter(k => k.startsWith('PB'));
+    const sortedKeys = allKeys.sort();
+    const targetKey = sortedKeys[promptIndex - 1];
+    
+    if (!targetKey) {
+        vscode.window.showErrorMessage('設定が見つかりません．');
+        return;
+    }
+    
+    const customPrompt = config.get(targetKey);
+    const finalText = customPrompt + "\\n\\n" + text;
+    await vscode.env.clipboard.writeText(finalText);
+    
+    try {
+        const rooExtension = vscode.extensions.getExtension(ROO_EXTENSION_ID);
+        if (!rooExtension) {
+            vscode.window.showInformationMessage('Roo Code未検出：コピーしました');
+            return;
+        }
+        if (!rooExtension.isActive) await rooExtension.activate();
+        const api = rooExtension.exports;
+        if (api && typeof api.sendMessage === 'function') {
+            await api.sendMessage(finalText);
+            vscode.window.setStatusBarMessage('✓ Roo Codeへ送信完了', 3000);
+        }
+    } catch (error) {
+        vscode.window.showErrorMessage('連携エラー：クリップボードを確認してください．');
+    }
+}
+
+function activate(context) {
+    context.subscriptions.push(
+        vscode.commands.registerCommand('prompt-bridge-v3.sendToRoo1', () => sendToRoo(1)),
+        vscode.commands.registerCommand('prompt-bridge-v3.sendToRoo2', () => sendToRoo(2)),
+        vscode.commands.registerCommand('prompt-bridge-v3.sendToRoo3', () => sendToRoo(3))
+    );
+}
+
+module.exports = { activate, deactivate: () => {} };`;
+
+            // Windows PowerShell用のコマンド構築（エスケープ不要）
+            const pkgJsonStr = JSON.stringify(packageJson, null, 2);
+            const extJsStr = extensionJs;
+
+            const fullCommand = `if (!(Test-Path "${workDir}")) { New-Item -ItemType Directory -Path "${workDir}" }; cd "${workDir}"; Remove-Item -ErrorAction SilentlyContinue *.vsix; @'\n${pkgJsonStr}\n'@ | Out-File -Encoding utf8 package.json; @'\n${extJsStr}\n'@ | Out-File -Encoding utf8 extension.js; npx @vscode/vsce package --skip-license --allow-missing-repository --allow-star-activation`;
+
+            document.getElementById('fullCommand').innerText = fullCommand;
+            document.getElementById('output').style.display = 'block';
+            
+            const btn = document.getElementById('copyBtn');
+            btn.innerText = "COPY";
+            btn.classList.remove('success');
+        }
+
+        async function copyToClipboard() {
+            const code = document.getElementById('fullCommand').innerText;
+            const btn = document.getElementById('copyBtn');
+            try {
+                await navigator.clipboard.writeText(code);
+                btn.innerText = "COPIED!";
+                btn.classList.add('success');
+            } catch (err) {
+                alert("コピーに失敗しました．");
+            }
+        }
+    </script>
+</body>
+</html>

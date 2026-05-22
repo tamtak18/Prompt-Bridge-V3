@@ -1,0 +1,76 @@
+{
+  "name": "prompt-bridge-v3",
+  "displayName": "Prompt Bridge V3.1",
+  "version": "3.1.0",
+  "publisher": "takasoft",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "prompt-bridge-v3.sendToRoo1",
+        "title": "PB1: コード解説"
+      },
+      {
+        "command": "prompt-bridge-v3.sendToRoo2",
+        "title": "PB2: テスト観点"
+      },
+      {
+        "command": "prompt-bridge-v3.sendToRoo3",
+        "title": "PB3: カスタムプロンプト"
+      }
+    ],
+    "submenus": [
+      {
+        "id": "prompt-bridge-v3.submenu",
+        "label": "Prompt Bridge"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "prompt-bridge-v3.submenu",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        }
+      ],
+      "prompt-bridge-v3.submenu": [
+        {
+          "command": "prompt-bridge-v3.sendToRoo1",
+          "group": "1_main@1"
+        },
+        {
+          "command": "prompt-bridge-v3.sendToRoo2",
+          "group": "1_main@2"
+        },
+        {
+          "command": "prompt-bridge-v3.sendToRoo3",
+          "group": "1_main@3"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Prompt Bridge V3",
+      "properties": {
+        "promptBridgeV3.PB1: コード解説": {
+          "type": "string",
+          "default": "# 役割\nシニアエンジニアとして、ジュニア向けに以下のコードを解説してください。\n\n# 項目\n1. **概要**: 何をするコードか（1行）\n2. **仕組み**: 処理の流れを箇条書きで（簡潔に）\n3. **重要語句**: 覚えるべきキーワード3選（一言解説）\n4. **改善点**:\n   - 可読性、保守性、セキュリティの観点から1〜2点\n   - 実務で注意すべき「落とし穴」\n\n---\n## 解説対象のソースコード：",
+          "description": "PB1: コード解説で使用するプロンプト"
+        },
+        "promptBridgeV3.PB2: テスト観点": {
+          "type": "string",
+          "default": "# 役割\nシニアQAエンジニアとして、以下のコードに対するテスト観点を網羅的に作成してください。\n\n# 項目\n1. **正常系**: 期待通りの動作を確認するためのケース\n2. **異常系・準正常系**: エラーハンドリングや不正な入力に対するケース\n3. **境界値・特殊値**: バグが発生しやすい値（0, 空, 最大値, 型違い等）のケース\n4. **実務上の懸念点**: 外部接続（API/DB）やパフォーマンスに関する注意点\n\n# 出力形式\nジュニアがそのままテスト仕様書に反映できるよう、箇条書きで簡潔に出力してください。\n\n---\n## 対象ソースコード：",
+          "description": "PB2: テスト観点で使用するプロンプト"
+        },
+        "promptBridgeV3.PB3: カスタムプロンプト": {
+          "type": "string",
+          "default": "（あなたのプロンプトをここに書いてください）",
+          "description": "PB3: カスタムプロンプトで使用するプロンプト"
+        }
+      }
+    }
+  }
+}
